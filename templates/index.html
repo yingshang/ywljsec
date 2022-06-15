@@ -21,8 +21,8 @@
 <h3><a href="{% url "shopping" %}?username={{ parallel_attack_user }}">数量篡改</a></h3>
 <h3><a href="{% url "shopping" %}?username={{ parallel_attack_user }}">金额篡改</a></h3>
 <h2>验证码</h2>
-<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=horizontal">短信验证码横向重放</a></h3>
-<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=vertical">短信验证码纵向重放</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=horizontal">短信验证码横向轰炸</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=vertical">短信验证码纵向轰炸</a></h3>
 <h3><a href="{% url "msg_code" %}?phone=123457&attack_type=leak">短信验证码泄露</a></h3>
 <h3><a href="{% url "msg_code" %}?phone=123457&attack_type=nofail&code=438163">短信验证码不失效</a></h3>
 <h3><a href="{% url "msg_code" %}?phone=123457&attack_type=noauth&code=438163">短信验证码绕过</a></h3>

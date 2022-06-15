@@ -198,7 +198,7 @@ def msg_code(request):
     elif attack_type =='vertical':
         code_status = cache.get(f'phone_{phone}')
         if code_status==None:
-            cache.set(f'phone_{phone}', code,None)
+            cache.set(f'phone_{phone}', code,60)
             return JsonResponse({"msg": "手机号："+phone+" 短信发送成功"})
         else:
             return JsonResponse({"msg": "手机号："+phone+" 需要等待一分钟才可以再次发送"})
@@ -208,9 +208,9 @@ def msg_code(request):
 
     elif attack_type=='nofail':
         code = cache.get(f'phone_{phone}')
+        print()
         try:
-            if rcode==code:
-
+            if int(rcode)==int(code):
                 return JsonResponse({"msg":"短信验证码校验成功","code":200})
             else:
                 return JsonResponse({"msg":"校验错误","code":0,"real_code":code})
@@ -256,15 +256,23 @@ def register(request):
         if attack_type=='arbitrarily':
 
             try:
-                userinfo.objects.get(phone=phone)
-                return JsonResponse({"code":0,"msg":"该用户已经注册"})
-            except:
+                ct = userinfo.objects.filter(phone=phone).count()
+                if ct >0:
+                    return JsonResponse({"code":0,"msg":"该用户已经注册"})
+                else:
+                    userinfo.objects.create(
+                        username=username,
+                        phone=phone,
+                        password=password,
+                    )
+                    return JsonResponse({"code": 200, "msg": "用户成功注册！！"})
+            except Exception as e :
                 userinfo.objects.create(
                     username=username,
                     phone=phone,
                     password=password,
                 )
-                return JsonResponse({"code": 200, "msg": "用户成功注册！！"})
+
 
 
         elif attack_type=='cover':
