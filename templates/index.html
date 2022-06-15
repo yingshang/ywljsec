@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>业务逻辑安全漏洞复现</title>
+</head>
+<body>
+<h1>业务逻辑安全漏洞复现</h1>
+<a href="{% url "init_data" %}">初始化数据</a>
+<h2>越权</h2>
+
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}">水平越权-查看用户信息</a>（<a href="{% url "unauthorized_access" %}?username={{ parallel_victim_user }}">攻击链接</a>）</h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}&operation=edit&password=normal&phone=normal&address=normal">水平越权-修改用户信息</a>（<a href="{% url "unauthorized_access" %}?username={{ parallel_victim_user }}&operation=edit&password=hacker&phone=hacker&address=hacker">攻击链接</a>）</h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}&operation=del">水平越权-删除用户</a>（<a href="{% url "unauthorized_access" %}?username={{ parallel_victim_user }}&operation=del">攻击链接</a>）</h3>
+<h3><a href="{% url "unauthorized_access" %}">垂直越权-未授权访问</a></h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}">垂直越权-查看管理员信息（<a href="{% url "unauthorized_access" %}?username={{ vertical_victim_user }}&role=管理员">攻击链接</a>）</a></h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}&operation=edit&password=normal&phone=normal&address=normal&role=普通用户">垂直越权-修改管理员信息</a>（<a href="{% url "unauthorized_access" %}?username={{ parallel_victim_user }}&operation=edit&password=hacker&phone=hacker&address=hacker&role=管理员">攻击链接</a>）</h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}&operation=del&role=普通用户">垂直越权-删除管理员信息</a>（<a href="{% url "unauthorized_access" %}?username={{ vertical_victim_user }}&operation=del&role=管理员">攻击链接</a>）</h3>
+<h3><a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}&operation=promotion&role=管理员">垂直越权-提升管理员</a>（<a href="{% url "unauthorized_access" %}?username={{ parallel_attack_user }}">先访问这个确定用户低权限</a> ）</h3>
+<h2>支付篡改</h2>
+<h3><a href="{% url "shopping" %}?username={{ parallel_attack_user }}">数量篡改</a></h3>
+<h3><a href="{% url "shopping" %}?username={{ parallel_attack_user }}">金额篡改</a></h3>
+<h2>验证码</h2>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=horizontal">短信验证码横向重放</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=vertical">短信验证码纵向重放</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=leak">短信验证码泄露</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=nofail&code=438163">短信验证码不失效</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=noauth&code=438163">短信验证码绕过</a></h3>
+<h3><a href="{% url "msg_code" %}?phone=123457&attack_type=constant&code=888888">短信验证码写死</a></h3>
+<h2>注册</h2>
+<h3><a href="{% url 'register' %}?attack_type=cover&username=1234&phone=1113&password=123">用户覆盖</a>(<a href="{% url "register" %}?attack_type=cover_check&username=1234">查看成功</a>)</h3>
+<h3><a href="{% url 'register' %}?attack_type=arbitrarily&username=1234&phone=1113&password=123">任意用户注册</a></h3>
+<h2>密码重置</h2>
+<h2>重放攻击</h2>
+<h3>无限获利</h3>
+<h3>条件竞争</h3>
+
+</body>
+</html>

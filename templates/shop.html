@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物商城</title>
+</head>
+<body>
+<h1>用户：{{ username }}  余额：{{ money }}</h1><br><br>
+
+{% for i in rs %}
+    商品名字：{{ i.name }} 商品价格：{{ i.price }} 商品限制：{{ i.limit }}
+
+<form action="{% url "shopping" %}?username={{ username }}" method="post">
+    <input type="hidden" name="name"  value="{{ i.name }}">
+    <input type="hidden" name="price"  value="{{ i.price }}">
+    <input type="text" name="num" ><br>
+   <input type="submit" value="购买">
+</form>
+
+{% endfor %}
+
+</body>
+</html>
